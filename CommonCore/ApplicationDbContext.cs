@@ -41,6 +41,37 @@ namespace CommonCore
                 .HasQueryFilter(eb => eb.EstaBorrado == false).HasQueryFilter(ebcp => ebcp.EstaBorrado == false);
             builder.Entity<CompraProducto>().
                 HasQueryFilter(ebc => ebc.Producto.EstaBorrado == true || ebc.EstaBorrado == true);
+
+            //Seed
+            builder.Entity<CompraProducto>().HasData(
+                new CompraProducto() 
+                {
+                    Cantidad = 1, 
+                    CompraId = 1, 
+                    EstaBorrado = false, 
+                    Id = 1, 
+                    PrecioUnitarioFinal = 10000, 
+                    ProductoId = 1
+                },
+                new CompraProducto()
+                {
+                    Cantidad = 2,
+                    CompraId = 1,
+                    EstaBorrado = false,
+                    Id = 2,
+                    PrecioUnitarioFinal = 1100,
+                    ProductoId = 2
+                },
+                new CompraProducto()
+                {
+                    Cantidad = 3,
+                    CompraId = 1,
+                    EstaBorrado = false,
+                    Id = 3,
+                    PrecioUnitarioFinal = 2200,
+                    ProductoId = 4
+                });
+
         }
         #region Borrado Suave en SaveChanges y SaveChangesAsync
         public override int SaveChanges()

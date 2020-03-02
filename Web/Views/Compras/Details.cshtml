@@ -1,4 +1,5 @@
 ﻿@model CommonCore.Compra
+@using CommonCore
 
 @{
     ViewData["Title"] = "Details";
@@ -6,25 +7,28 @@
 
 <h1>Details</h1>
 
+<partial name="~/Views/Shared/_DetallesCliente.cshtml" for="@Model.ApplicationUser" />
+
 <div>
     <h4>Compra</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FechaCompra)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.FechaCompra)
         </dd>
-        <dt class = "col-sm-2">
+        @*<dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EstaBorrado)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EstaBorrado)
-        </dd>
+        </dd>*@
     </dl>
 </div>
+@await Html.PartialAsync("_ListaProductos", (List<Producto>)ViewData["ListaProductos"])
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    @*<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |*@
     <a asp-action="Index">Back to List</a>
 </div>

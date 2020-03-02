@@ -1,6 +1,8 @@
 ﻿using CommonCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -15,12 +17,11 @@ namespace Web.Controllers
             _context = context;
         }
 
-        // GET: Compras
         public async Task<IActionResult> Index()
         {
             var listaCompras = await _context.Compras
-                .Include(cp => cp.ComprasProductos)
-                .Include(au => au.ApplicationUser)
+                .Include(cp => cp.ComprasProductos).IgnoreQueryFilters()
+                .Include(au => au.ApplicationUser).IgnoreQueryFilters()
                 .Select(x => new Compra
                 {
                     ApplicationUser = x.ApplicationUser,
@@ -36,33 +37,39 @@ namespace Web.Controllers
             return View(listaCompras);
         }
 
-        // GET: Compras/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                ModelState.AddModelError(string.Empty, $"Este registo no existe");
+                return RedirectToAction(nameof(Index));
             }
 
             var compra = await _context.Compras
-                .FirstOrDefaultAsync(m => m.Id == id);
+                .Include(cp => cp.ComprasProductos).IgnoreQueryFilters()
+                .Include(au => au.ApplicationUser).IgnoreQueryFilters()
+                .FirstOrDefaultAsync(m => m.Id == id);            
+
             if (compra == null)
             {
-                return NotFound();
+                ModelState.AddModelError(string.Empty, $"Este registo no existe");
+                return RedirectToAction(nameof(Index));
             }
 
+            var productos = _context.Productos;
+            var listaProductos = compra.ComprasProductos.Select(p => productos.Find(p.ProductoId)).ToList();
+
+            ViewData["ListaProductos"] = listaProductos;
             return View(compra);
         }
 
-        // GET: Compras/Create
         public IActionResult Create()
         {
-            return View();
+            ViewBag.ApplicationUser = new SelectList(_context.Users.ToList(),"Id", "NombreApellido");
+            ViewBag.Productos = new SelectList(_context.Productos.OrderBy(np => np.NombreProducto).ToList(),"Id", "NombreProducto");
+            return View(new Compra());
         }
 
-        // POST: Compras/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("FechaCompra,Id,EstaBorrado")] Compra compra)
@@ -93,8 +100,6 @@ namespace Web.Controllers
         }
 
         // POST: Compras/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("FechaCompra,Id,EstaBorrado")] Compra compra)

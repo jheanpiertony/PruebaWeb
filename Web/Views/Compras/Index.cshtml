@@ -17,6 +17,12 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ApplicationUser.NombreApellido)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model.NroItems)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model.Total)
             </th>
             <th></th>
         </tr>
@@ -31,9 +37,15 @@
                 @Html.DisplayFor(modelItem => item.ApplicationUser.NombreApellido)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.NroItems)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Total)
+            </td>
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |*@
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> @*|
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
             </td>
         </tr>
 }

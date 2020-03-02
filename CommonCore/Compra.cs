@@ -12,12 +12,13 @@ namespace CommonCore
         {
             NroItems = 0;
             Total = 0;
+            FechaCompra = DateTime.Now;
         }
 
         [Required]
         [Display(Name = "Fecha de compra")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime FechaCompra { get; set; }
 
         public List<CompraProducto> ComprasProductos { get; set; }

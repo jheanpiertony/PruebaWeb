@@ -119,6 +119,35 @@ namespace CommonCore.Migrations
                     b.HasIndex("ProductoId");
 
                     b.ToTable("CompraProducto");
+
+                    b.HasData(
+                        new
+                        {
+                            CompraId = 1,
+                            ProductoId = 1,
+                            Cantidad = 1,
+                            EstaBorrado = false,
+                            Id = 1,
+                            PrecioUnitarioFinal = 10000m
+                        },
+                        new
+                        {
+                            CompraId = 1,
+                            ProductoId = 2,
+                            Cantidad = 2,
+                            EstaBorrado = false,
+                            Id = 2,
+                            PrecioUnitarioFinal = 1100m
+                        },
+                        new
+                        {
+                            CompraId = 1,
+                            ProductoId = 4,
+                            Cantidad = 3,
+                            EstaBorrado = false,
+                            Id = 3,
+                            PrecioUnitarioFinal = 2200m
+                        });
                 });
 
             modelBuilder.Entity("CommonCore.Producto", b =>

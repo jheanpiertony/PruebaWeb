@@ -24,5 +24,8 @@ namespace CommonCore
         [NotMapped]
         [Display(Name = "Nombre y apellido")]
         public string NombreApellido { get => $"{Nombres} {Apellidos}"; }
+        
+        [Display(Name = "Nro. de telefono")]
+        public override string PhoneNumber { get => base.PhoneNumber; set => base.PhoneNumber = value; }
     }
 }

@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using CommonCore;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using CommonCore;
-using Web.Helpers;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Logging.Debug;
+using System;
+using Web.Helpers;
 
 namespace Web
 {
@@ -38,15 +31,19 @@ namespace Web
         //           && level == LogLevel.Information, true)
         //});
 
-        //[Obsolete]
-        //public static readonly LoggerFactory MyLoggerFactory = 
-        //    new LoggerFactory().AddConsole((category, level) => level == LogLevel.Information && category == DbLoggerCategory.Database.Name,true); 
+        [Obsolete]
+        public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] 
+        {
+            new DebugLoggerProvider(
+                (category, level) => category == DbLoggerCategory.Database.Command.Name &&level == LogLevel.Information)
+        });
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        //[Obsolete]
+        [Obsolete]
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IImagenHelper, ImagenHelper>();
+            services.AddScoped<IConvertirtHelper, ConvertirtHelper>();
 
             services.AddMvc().AddJsonOptions(ConfigureJson);
 
@@ -58,12 +55,7 @@ namespace Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 .EnableSensitiveDataLogging(true)
-                .UseLoggerFactory(
-                    new LoggerFactory(new[] {
-                    new DebugLoggerProvider(
-                    (category, level) => category == DbLoggerCategory.Database.Command.Name &&
-                             level == LogLevel.Information) }
-                    )));
+                .UseLoggerFactory(MyLoggerFactory));
 
             services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
