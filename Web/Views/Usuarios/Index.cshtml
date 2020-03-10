@@ -15,6 +15,9 @@
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model[0].NombreApellido)
+            </th> 
+            <th>
+                @Html.DisplayNameFor(model => model[0].UrlFoto)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model[0].Email)
@@ -25,19 +28,30 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreApellido)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Email)
-                </td>
-                <td>
-                    @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(item.UrlFoto))
+                {
+                    <img src="@Url.Content(item.UrlFoto)" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto" />
+                }
+                else
+                {
+                    <img src="~/Imagenes/FotoPerfil/FotoPerfilDefecto.jpg" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto" />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreApellido)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @*<a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>*@
+            </td>
+
+        </tr>
         }
     </tbody>
 </table>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -67,6 +68,7 @@ namespace Web.Controllers
         {
             ViewBag.ApplicationUser = new SelectList(_context.Users.ToList(),"Id", "NombreApellido");
             ViewBag.Productos = new SelectList(_context.Productos.OrderBy(np => np.NombreProducto).ToList(),"Id", "NombreProducto");
+            TempData["ListaProductos"] = new List<Producto>();
             return View(new Compra());
         }
 

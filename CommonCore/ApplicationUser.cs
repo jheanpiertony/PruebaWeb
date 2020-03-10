@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -18,6 +19,14 @@ namespace CommonCore
         [Required]
         [Display(Name = "Género")]
         public Genero Genero { get; set; }
+
+        [Required]
+        [Display(Name = "Foto de perfil")]
+        public string UrlFoto { get; set; }
+
+        [NotMapped]
+        [Display(Name = "Foto de perfil")]
+        public IFormFile FotoPerfil { get; set; }
 
         public List<Compra> Compras { get; set; }
         

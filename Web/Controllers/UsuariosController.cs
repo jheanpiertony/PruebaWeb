@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Web.Helpers;
 
 namespace Web.Controllers
 {
@@ -16,6 +17,7 @@ namespace Web.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
+        private readonly IImagenHelper _imagenHelper;
         #endregion
 
         #region Propiedades
@@ -23,19 +25,25 @@ namespace Web.Controllers
         #endregion
 
         #region Constructor
-        public UsuariosController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IConfiguration configuration, ApplicationDbContext context)
+        public UsuariosController(
+            UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager, 
+            IConfiguration configuration, 
+            ApplicationDbContext context,
+            IImagenHelper imagenHelper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             Configuration = configuration;
             _context = context;
+            _imagenHelper = imagenHelper;
         }
         #endregion
 
         // GET: Usuarios
         public IActionResult Index()
         {
-            List<ApplicationUser> listaUsuarios = _context.Users.ToList();
+            List<ApplicationUser> listaUsuarios = _context.Users.OrderBy(na => na.NombreApellido).ToList();
             return View(listaUsuarios);
         }
 
@@ -54,25 +62,37 @@ namespace Web.Controllers
         // POST: Usuarios/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,UserName,PasswordHash,PhoneNumber,Apellidos,Nombres,Genero")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Create(ApplicationUser applicationUser)
         {
-            var oldUserASP = await _userManager.FindByEmailAsync(applicationUser.Email);
-            if (oldUserASP != null)
+            var usuarioExistente = await _userManager.FindByEmailAsync(applicationUser.Email);
+            if (usuarioExistente != null)
             {
                 ModelState.AddModelError("Ya esta registrado", "Usuario ya registrado");
             }
 
-            var userASP = new ApplicationUser
+            var fotoPerfilPath = string.Empty;
+
+            if (applicationUser.FotoPerfil != null)
+            {
+                fotoPerfilPath = await _imagenHelper.CargarImagenAsync(applicationUser.FotoPerfil, "FotoPerfil");
+            }
+            else
+            {
+                fotoPerfilPath = _imagenHelper.CargarImagenDefecto("FotoPerfilDefecto", "FotoPerfil");
+            }
+
+            var usuarioNuevo = new ApplicationUser
             {
                 Email = applicationUser.Email,
                 Nombres = applicationUser.Nombres,
                 Apellidos = applicationUser.Apellidos,
                 Genero = applicationUser.Genero,
                 UserName = applicationUser.Email,
-                PhoneNumber = applicationUser.PhoneNumber,                
+                PhoneNumber = applicationUser.PhoneNumber, 
+                UrlFoto = fotoPerfilPath, 
             };
 
-            var result = await _userManager.CreateAsync(userASP, applicationUser.PasswordHash);
+            var result = await _userManager.CreateAsync(usuarioNuevo, applicationUser.PasswordHash);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(Index));

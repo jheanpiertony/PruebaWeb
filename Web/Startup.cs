@@ -1,4 +1,5 @@
 ﻿using CommonCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -8,28 +9,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Debug;
+using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Text;
 using Web.Helpers;
 
 namespace Web
 {
     public class Startup
     {
+        #region Constructor
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
+        #endregion
 
+        #region Propiedades
         public IConfiguration Configuration { get; }
-
-        //[Obsolete]
-        //public static readonly LoggerFactory MyLoggerFactory
-        //= new LoggerFactory(new[]
-        //{
-        //    new ConsoleLoggerProvider((category, level)
-        //        => category == DbLoggerCategory.Database.Command.Name
-        //           && level == LogLevel.Information, true)
-        //});
+        #endregion
 
         [Obsolete]
         public static readonly LoggerFactory MyLoggerFactory = new LoggerFactory(new[] 
@@ -44,6 +42,18 @@ namespace Web
         {
             services.AddScoped<IImagenHelper, ImagenHelper>();
             services.AddScoped<IConvertirtHelper, ConvertirtHelper>();
+            
+            #region Configure session state
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
+            }); 
+            #endregion
 
             services.AddMvc().AddJsonOptions(ConfigureJson);
 
@@ -69,6 +79,30 @@ namespace Web
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            /*services.AddHsts(options =>// para produccion HSTS
+            {
+                options.Preload = true;
+                options.IncludeSubDomains = true;
+                options.MaxAge = TimeSpan.FromDays(9000);
+                options.ExcludedHosts.Add("webalotiapp.azurewebsites.net");
+                options.ExcludedHosts.Add("https://webalotiapp.azurewebsites.net");
+            });*/
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+               .AddJwtBearer(options =>
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Dominio:validIssuer"],
+                    ValidAudience = Configuration["Dominio:validAudience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["JWT:key"])),
+                    ClockSkew = TimeSpan.Zero
+                });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -91,7 +125,9 @@ namespace Web
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            app.UseAuthentication();
+            app.UseSession();
+
+            app.UseAuthentication();// Session and app state in ASP.NET Core
 
             app.UseMvc(routes =>
             {
