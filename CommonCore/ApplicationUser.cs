@@ -8,6 +8,13 @@ namespace CommonCore
 {
     public class ApplicationUser : IdentityUser
     {
+        [Display(Name = "Contraseña")]
+        public override string PasswordHash
+        {
+            get => base.PasswordHash;
+            set => base.PasswordHash = value;
+        }
+
         [Required]
         [Display(Name = "Nombres")]
         public string Nombres { get; set; }
@@ -29,12 +36,19 @@ namespace CommonCore
         public IFormFile FotoPerfil { get; set; }
 
         public List<Compra> Compras { get; set; }
-        
+
         [NotMapped]
         [Display(Name = "Nombre y apellido")]
-        public string NombreApellido { get => $"{Nombres} {Apellidos}"; }
-        
+        public string NombreApellido
+        {
+            get => $"{Nombres} {Apellidos}";
+        }
+
         [Display(Name = "Nro. de telefono")]
-        public override string PhoneNumber { get => base.PhoneNumber; set => base.PhoneNumber = value; }
+        public override string PhoneNumber
+        {
+            get => base.PhoneNumber;
+            set => base.PhoneNumber = value;
+        }
     }
 }

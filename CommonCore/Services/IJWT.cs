@@ -1,5 +1,4 @@
-﻿
-using CommonCore;
+﻿using CommonCore;
 using System.IdentityModel.Tokens.Jwt;
 
 namespace Web.Services

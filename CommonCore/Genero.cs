@@ -7,6 +7,8 @@ namespace CommonCore
         [Description("Femenino")]
         Femenino = 0,
         [Description("Masculino")]
-        Masculino = 1
+        Masculino = 1,
+        [Description("No definido")]
+        NoDefinido = 2,
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 
-namespace Web.Helpers
+namespace CommonCore.Helpers
 {
     public interface IImagenHelper
     {

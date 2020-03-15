@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CommonCore;
+using CommonCore.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
-using Web.Helpers;
-
 namespace Web.Controllers
 {
     public class UsuariosController : Controller
@@ -18,6 +17,7 @@ namespace Web.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ApplicationDbContext _context;
         private readonly IImagenHelper _imagenHelper;
+        private readonly EnumService _enumService;
         #endregion
 
         #region Propiedades
@@ -30,13 +30,15 @@ namespace Web.Controllers
             SignInManager<ApplicationUser> signInManager, 
             IConfiguration configuration, 
             ApplicationDbContext context,
-            IImagenHelper imagenHelper)
+            IImagenHelper imagenHelper,
+            EnumService enumService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             Configuration = configuration;
             _context = context;
             _imagenHelper = imagenHelper;
+            _enumService = enumService;
         }
         #endregion
 
@@ -56,6 +58,8 @@ namespace Web.Controllers
         // GET: Usuarios/Create
         public ActionResult Create()
         {
+            var listadoGenero= _enumService.ToListSelectListItem<Genero>().OrderBy(x => x.Text);
+            ViewBag.Genero = listadoGenero;
             return View();
         }
 

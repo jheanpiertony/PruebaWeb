@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Web.Helpers
+namespace CommonCore.Helpers
 {
-    public class ConvertirtHelper : IConvertirtHelper
+    public interface IConvertirtHelper
     {
+
     }
 }

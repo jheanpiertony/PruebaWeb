@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Web.Helpers
+namespace CommonCore.Helpers
 {
     public class ImagenHelper : IImagenHelper
     {

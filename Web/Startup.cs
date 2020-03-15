@@ -1,4 +1,5 @@
 ﻿using CommonCore;
+using CommonCore.Helpers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,7 +13,6 @@ using Microsoft.Extensions.Logging.Debug;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
-using Web.Helpers;
 
 namespace Web
 {
@@ -42,6 +42,7 @@ namespace Web
         {
             services.AddScoped<IImagenHelper, ImagenHelper>();
             services.AddScoped<IConvertirtHelper, ConvertirtHelper>();
+            services.AddScoped<EnumService>();
             
             #region Configure session state
             services.AddDistributedMemoryCache();
