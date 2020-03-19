@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using CommonCore;
 using CommonCore.Helpers;
 using CommonCore.Repositories;
+using AutoMapper;
 
 namespace Web.Controllers
 {
@@ -16,15 +17,21 @@ namespace Web.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IImagenHelper _imagenHelper;
         private IRepositorio<Producto> _repositorio;
+        private readonly IProductoRepository _productoRepository;
+        private readonly IMapper _mapper;
 
         public ProductosController(
             ApplicationDbContext context, 
             IImagenHelper imagenHelper,
-            IRepositorio<Producto> repositorio)
+            IRepositorio<Producto> repositorio,
+            IProductoRepository productoRepository,
+            IMapper mapper)
         {
             _context = context;
             _imagenHelper = imagenHelper;
             _repositorio = repositorio;
+            _productoRepository = productoRepository;
+            _mapper = mapper;
         }
 
         // GET: Productos
@@ -46,8 +53,8 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            var producto = await _context.Productos
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var _listadoProductos = await _productoRepository.OdtenerListaProducto();
+            var producto = _listadoProductos.FirstOrDefault(m => m.Id == id);
             if (producto == null)
             {
                 return NotFound();

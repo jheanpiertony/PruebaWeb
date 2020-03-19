@@ -34,7 +34,6 @@ namespace CommonCore.Repositories
                 }
             }
         }
-
         public async Task CrearProducto(Producto producto)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
@@ -59,7 +58,6 @@ namespace CommonCore.Repositories
                 }
             }
         }
-
         public async Task EditarProducto(Producto producto)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
@@ -85,7 +83,6 @@ namespace CommonCore.Repositories
                 }
             }
         }
-
         public async Task EliminarProducto(int id)
         {
             using (SqlConnection sql = new SqlConnection(_connectionString))
@@ -107,7 +104,6 @@ namespace CommonCore.Repositories
                 }
             }
         }
-
         private Producto MapToValue(SqlDataReader reader)
         {
             //var Id = (int)reader["Id"];

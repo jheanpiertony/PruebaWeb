@@ -44,6 +44,7 @@ namespace Web
         {
             services.AddScoped<IImagenHelper, ImagenHelper>();
             services.AddScoped<IConvertirtHelper, ConvertirtHelper>();
+            services.AddScoped<IProductoRepository, ProductoRepository>();
             services.AddScoped<IRepositorio<Producto>, Repositorio<Producto>>();
             services.AddScoped<EnumService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
