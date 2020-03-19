@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CommonCore.Repositories
 {
-    public class ProductoRepository : IProducto
+    public class ProductoRepository : IProductoRepository
     {
         private readonly string _connectionString;
 

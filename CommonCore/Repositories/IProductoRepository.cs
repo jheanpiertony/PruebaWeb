@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace CommonCore.Repositories
 {
-    public interface IProducto
+    public interface IProductoRepository
     {
         Task<List<Producto>> OdtenerListaProducto();
         Task CrearProducto(Producto producto);
