@@ -35,10 +35,8 @@ namespace Web.Controllers
         }
 
         // GET: Productos
-        //public async Task<IActionResult> Index()
         public IActionResult Index()
         {
-            //var listaProducto = await _context.Productos.ToListAsync();
             var parametros = new ParametrosDeQuery<Producto>(1, 5);
             parametros.OrderBy = x => x.NombreProducto;
             var listadoProductos = _repositorio.EncontrarPor(parametros);
@@ -70,8 +68,6 @@ namespace Web.Controllers
         }
 
         // POST: Productos/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Producto producto)
@@ -129,8 +125,6 @@ namespace Web.Controllers
         }
 
         // POST: Productos/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,NombreProducto,Precio")] Producto producto)
