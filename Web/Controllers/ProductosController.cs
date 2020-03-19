@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CommonCore;
 using CommonCore.Helpers;
+using CommonCore.Repositories;
 
 namespace Web.Controllers
 {
@@ -14,18 +15,27 @@ namespace Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IImagenHelper _imagenHelper;
+        private IRepositorio<Producto> _repositorio;
 
-        public ProductosController(ApplicationDbContext context, IImagenHelper imagenHelper)
+        public ProductosController(
+            ApplicationDbContext context, 
+            IImagenHelper imagenHelper,
+            IRepositorio<Producto> repositorio)
         {
             _context = context;
             _imagenHelper = imagenHelper;
+            _repositorio = repositorio;
         }
 
         // GET: Productos
-        public async Task<IActionResult> Index()
+        //public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var listaProducto = _context.Productos;                                 
-            return View(await listaProducto.ToListAsync());
+            //var listaProducto = await _context.Productos.ToListAsync();
+            var parametros = new ParametrosDeQuery<Producto>(1, 5);
+            parametros.OrderBy = x => x.NombreProducto;
+            var listadoProductos = _repositorio.EncontrarPor(parametros);
+            return View(listadoProductos);
         }
 
         // GET: Productos/Details/5

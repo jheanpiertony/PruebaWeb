@@ -1,5 +1,7 @@
-﻿using CommonCore;
+﻿using AutoMapper;
+using CommonCore;
 using CommonCore.Helpers;
+using CommonCore.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -42,8 +44,10 @@ namespace Web
         {
             services.AddScoped<IImagenHelper, ImagenHelper>();
             services.AddScoped<IConvertirtHelper, ConvertirtHelper>();
+            services.AddScoped<IRepositorio<Producto>, Repositorio<Producto>>();
             services.AddScoped<EnumService>();
-            
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             #region Configure session state
             services.AddDistributedMemoryCache();
             services.AddSession(options =>

@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using AutoMapper;
 using CommonCore;
 using CommonCore.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 namespace Web.Controllers
 {
     public class UsuariosController : Controller
@@ -18,6 +18,7 @@ namespace Web.Controllers
         private readonly ApplicationDbContext _context;
         private readonly IImagenHelper _imagenHelper;
         private readonly EnumService _enumService;
+        private readonly IMapper _mapper;
         #endregion
 
         #region Propiedades
@@ -31,7 +32,8 @@ namespace Web.Controllers
             IConfiguration configuration, 
             ApplicationDbContext context,
             IImagenHelper imagenHelper,
-            EnumService enumService)
+            EnumService enumService,
+            IMapper mapper)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +41,7 @@ namespace Web.Controllers
             _context = context;
             _imagenHelper = imagenHelper;
             _enumService = enumService;
+            _mapper = mapper;
         }
         #endregion
 
@@ -85,18 +88,9 @@ namespace Web.Controllers
                 fotoPerfilPath = _imagenHelper.CargarImagenDefecto("FotoPerfilDefecto", "FotoPerfil");
             }
 
-            var usuarioNuevo = new ApplicationUser
-            {
-                Email = applicationUser.Email,
-                Nombres = applicationUser.Nombres,
-                Apellidos = applicationUser.Apellidos,
-                Genero = applicationUser.Genero,
-                UserName = applicationUser.Email,
-                PhoneNumber = applicationUser.PhoneNumber, 
-                UrlFoto = fotoPerfilPath, 
-            };
+            applicationUser.UrlFoto = fotoPerfilPath;
 
-            var result = await _userManager.CreateAsync(usuarioNuevo, applicationUser.PasswordHash);
+            var result = await _userManager.CreateAsync(applicationUser, applicationUser.PasswordHash);
             if (result.Succeeded)
             {
                 return RedirectToAction(nameof(Index));

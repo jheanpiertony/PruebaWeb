@@ -31,16 +31,6 @@
         </form>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />
-            @*<input type="submit" value="Agregar producto" class="btn btn-primary" />*@
-            @*@using (Ajax.BeginForm("AgregarProductoLista", "Compras", new { @Descripcion = item.Descripcion }, new AjaxOptions
-                {
-                    HttpMethod = "POST",
-                    InsertionMode = InsertionMode.Replace,
-                    UpdateTargetId = "ListaFotos"
-                }))
-                {
-                    <input type="submit" value="Agregar producto" class="btn btn-primary" />
-                }*@
         <from method="post" data-ajax="true" data-ajax-method="post">
             <input type="submit" value="Agregar producto" class="btn btn-primary" />
         </from>
@@ -50,10 +40,6 @@
             <select id="Productos" name="Productos" asp-items="@ViewBag.Productos" class="form-control"></select>
         </div>
     </div>
-    @*@await Html.PartialAsync("_ListaProductos", TempData["ListaProductos"])
-    <div id="ListaPoductos">
-        @await Html.PartialAsync("_ListaProductos", TempData["ListaProductos"])
-    </div>*@
 </div>
 <div id="ListaPoductos">
     @await Html.PartialAsync("_ListaProductos", TempData["ListaProductos"])

@@ -1,0 +1,55 @@
+﻿@page
+@model WebRazorPage.Pages.Productos.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto[0].ImagenURL)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto[0].NombreProducto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Producto[0].Precio)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Producto) {
+        <tr>
+            <td>
+                @if (!string.IsNullOrEmpty(item.ImagenURL))
+                {
+                    <img src="@Url.Content(item.ImagenURL)" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto" />
+                }
+                else
+                {
+                    <img src="~/Imagenes/Productos/ProductoDefecto.jpg" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto" />
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Precio)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

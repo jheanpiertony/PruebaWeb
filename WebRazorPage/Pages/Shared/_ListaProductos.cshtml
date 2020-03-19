@@ -1,0 +1,56 @@
+﻿@model List<Producto>
+@using CommonCore
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].ImagenURL)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].NombreProducto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Precio)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Id)
+                </th>
+                @*<th>
+                    @Html.DisplayNameFor(model => model.EstaBorrado)
+                </th>*@
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @*@Html.DisplayFor(modelItem => item.ImagenURL)*@
+                        @if (!string.IsNullOrEmpty(item.ImagenURL))
+                        {
+                            <img src="@Url.Content(item.ImagenURL)" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto" />
+                        }
+                        else
+                        {
+                            <img src="~/Imagenes/Productos/ProductoDefecto.jpg" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto" />
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreProducto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Precio)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Id)
+                    </td>
+                    @*<td>
+                        @Html.DisplayFor(modelItem => item.EstaBorrado)
+                    </td>*@
+                    <td>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>

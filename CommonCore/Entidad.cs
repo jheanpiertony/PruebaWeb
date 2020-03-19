@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace CommonCore
 {
-    public class Entidad
+    public  abstract class Entidad
     {
         public Entidad()
         {
@@ -14,6 +11,8 @@ namespace CommonCore
 
         [Key]
         public int Id { get; set; }
+
+        [Display(Name ="Esta activo")]
         public bool EstaBorrado { get; set; }
     }
 }
