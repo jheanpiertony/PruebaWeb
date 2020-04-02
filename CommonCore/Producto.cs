@@ -14,7 +14,7 @@ namespace CommonCore
         }
 
         [Display(Name ="Imagen del producto")]
-        public string ImagenURL { get; set; }
+        public virtual string ImagenURL { get; set; }
 
         [NotMapped]
         [Display(Name ="Logo")]
@@ -22,14 +22,15 @@ namespace CommonCore
 
         [Display(Name = "Nombre del producto")]
         [Required]
-        public string NombreProducto { get; set; }
+        public virtual string NombreProducto { get; set; }
 
         //[Column(TypeName = "decimal(18,2)")]
         [Required]
         [Display(Name = "Precio")]
         [DisplayFormat(DataFormatString = "{0:#.##}")]
         [DataType(DataType.Currency)]
-        public decimal Precio { get; set; }
+        [Range(0,double.MaxValue)]
+        public virtual decimal Precio { get; set; }
 
         public List<CompraProducto> ComprasProductos { get; set; }
     }

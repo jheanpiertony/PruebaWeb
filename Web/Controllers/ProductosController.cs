@@ -1,14 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using CommonCore;
 using CommonCore.Helpers;
 using CommonCore.Repositories;
-using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
+using ProductoServiceReference;
+using System.Collections.Generic;
+using CommonCore.SpSQL;
+using System.Data.SqlClient;
 
 namespace Web.Controllers
 {
@@ -19,6 +21,7 @@ namespace Web.Controllers
         private IRepositorio<Producto> _repositorio;
         private readonly IProductoRepository _productoRepository;
         private readonly IMapper _mapper;
+        private ProductoServiceClient _productoServiceClient = new ProductoServiceClient();
 
         public ProductosController(
             ApplicationDbContext context, 
@@ -32,14 +35,30 @@ namespace Web.Controllers
             _repositorio = repositorio;
             _productoRepository = productoRepository;
             _mapper = mapper;
+            _productoServiceClient = new ProductoServiceClient();
         }
 
         // GET: Productos
+        //public async Task<IActionResult> Index()
         public IActionResult Index()
         {
-            var parametros = new ParametrosDeQuery<Producto>(1, 5);
-            parametros.OrderBy = x => x.NombreProducto;
-            var listadoProductos = _repositorio.EncontrarPor(parametros);
+            #region SP creados desde .net core https://www.entityframeworktutorial.net/efcore/working-with-stored-procedure-in-ef-core.aspx
+            var a = _context.Productos.FromSql("ListadoProductoDesdeNetCore_PruebaWeb_SP").ToList();
+            #endregion
+
+            var listadoProductos = _repositorio.OdtenerLista();
+
+            #region repositorioGenerico
+            //var parametros = new ParametrosDeQuery<Producto>(1, 5);
+            //parametros.OrderBy = x => x.NombreProducto;
+            //var listadoProductos = _repositorio.EncontrarPor(parametros); 
+            #endregion
+
+            #region desde WCF
+            //var listadoProductosWCF = await _productoServiceClient.ProductosAsync();
+            //var listadoProductos = _mapper.Map<List<Producto>>(listadoProductosWCF); 
+            #endregion
+
             return View(listadoProductos);
         }
 
@@ -53,6 +72,13 @@ namespace Web.Controllers
 
             var _listadoProductos = await _productoRepository.OdtenerListaProducto();
             var producto = _listadoProductos.FirstOrDefault(m => m.Id == id);
+
+            #region SP creados desde .net core https://www.entityframeworktutorial.net/efcore/working-with-stored-procedure-in-ef-core.aspx
+            var a = _context.Productos.FromSql($"{RecursosSQLSp.CrearSPProductoPorId} {id}").First();
+            var parametroId = new SqlParameter("@Id", id);
+            var b = _context.Productos.FromSql($"{RecursosSQLSp.CrearSPProductoPorId} @Id",parametroId).First();
+            #endregion
+
             if (producto == null)
             {
                 return NotFound();

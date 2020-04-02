@@ -88,6 +88,7 @@ namespace Web.Controllers
                 fotoPerfilPath = _imagenHelper.CargarImagenDefecto("FotoPerfilDefecto", "FotoPerfil");
             }
 
+            applicationUser.UserName = applicationUser.Email;
             applicationUser.UrlFoto = fotoPerfilPath;
 
             var result = await _userManager.CreateAsync(applicationUser, applicationUser.PasswordHash);
@@ -95,6 +96,9 @@ namespace Web.Controllers
             {
                 return RedirectToAction(nameof(Index));
             }
+
+            var listadoGenero= _enumService.ToListSelectListItem<Genero>().OrderBy(x => x.Text);
+            ViewBag.Genero = listadoGenero;
 
             return View(applicationUser);
         }

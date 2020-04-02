@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using CommonCore.Helpers;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -8,6 +10,10 @@ namespace CommonCore
 {
     public class ApplicationUser : IdentityUser
     {
+        public ApplicationUser()
+        {
+            FechaNacimiento = DateTime.Now;
+        }
         [Display(Name = "Contraseña")]
         public override string PasswordHash
         {
@@ -34,6 +40,13 @@ namespace CommonCore
         [NotMapped]
         [Display(Name = "Foto de perfil")]
         public IFormFile FotoPerfil { get; set; }
+
+        [Required]
+        [Display(Name = "Fecha de nacimiento")]
+        [DataType(DataType.Date)]
+        [ValidarFechaNacimiento(ErrorMessage ="La {0} debe ser menor a la fecha actual")]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime FechaNacimiento { get; set; }
 
         public List<Compra> Compras { get; set; }
 

@@ -1,0 +1,2 @@
+﻿Scaffold-DbContext "Data Source = DESKTOP-RFKKK95\\SQLEXPRESS; Initial Catalog = PruebaWebDB; Integrated Security = True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
+Script-Migration

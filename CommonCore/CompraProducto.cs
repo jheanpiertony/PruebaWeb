@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CommonCore
@@ -16,6 +17,7 @@ namespace CommonCore
         [Display(Name = "Precio unit.")]
         [DisplayFormat(DataFormatString = "{0:#.####}")]
         [DataType(DataType.Currency)]
+        [Range(0,double.MaxValue)]
         public decimal PrecioUnitarioFinal { get; set; }
 
         public int CompraId { get; set; }
