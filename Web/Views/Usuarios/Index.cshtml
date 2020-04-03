@@ -43,6 +43,7 @@
                     {
                         <img src="~/Imagenes/FotoPerfil/FotoPerfilDefecto.jpg" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto" />
                     }
+                    @*<img src="@(item.UrlFoto?? "~/Imagenes/FotoPerfil/FotoPerfilDefecto.jpg")" alt="Imagen" style="width:100px; height:100px; max-width:100%; height:auto"/>*@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NombreApellido)
