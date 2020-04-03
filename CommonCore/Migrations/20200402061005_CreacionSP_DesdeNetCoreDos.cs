@@ -7,14 +7,12 @@ namespace CommonCore.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            var crearSPProductoPorId = RecursosSQLSp.CrearSPProductoPorId;
             migrationBuilder.Sql(RecursosSQLSp.CrearSpProductoPorIdDesdeNetCore_PruebaWeb_SP);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            var borrarSPProductoPorId = RecursosSQLSp.BorrarSPProductoPorId;
-            migrationBuilder.Sql(RecursosSQLSp.CrearSpProductoPorIdDesdeNetCore_PruebaWeb_SP);
+            migrationBuilder.Sql(RecursosSQLSp.BorrarSpProductoPorIdDesdeNetCore_PruebaWeb_SP);
         }
     }
 }

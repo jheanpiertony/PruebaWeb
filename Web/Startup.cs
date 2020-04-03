@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@ using Microsoft.Extensions.Logging.Debug;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Text;
+using Web.Services;
 
 namespace Web
 {
@@ -48,6 +50,14 @@ namespace Web
             services.AddScoped<IRepositorio<Producto>, Repositorio<Producto>>();
             services.AddScoped<EnumService>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddTransient<IEmailSender, EmailSender>(options =>
+                new EmailSender(
+                    Configuration["EmailSender:Host"],
+                    Configuration.GetValue<int>("EmailSender:Port"),
+                    Configuration.GetValue<bool>("EmailSender:EnableSSL"),
+                    Configuration["EmailSender:UserName"],
+                    Configuration["EmailSender:Password"]
+                ));
 
             #region Configure session state
             services.AddDistributedMemoryCache();
@@ -134,6 +144,7 @@ namespace Web
             app.UseSession();
 
             app.UseAuthentication();// Session and app state in ASP.NET Core
+
 
             app.UseMvc(routes =>
             {

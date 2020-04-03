@@ -22,10 +22,12 @@ namespace CommonCore
         }
 
         [Required]
+        [PersonalData]
         [Display(Name = "Nombres")]
         public string Nombres { get; set; }
 
         [Required]
+        [PersonalData]
         [Display(Name = "Apellidos")]
         public string Apellidos { get; set; }
 
@@ -33,8 +35,7 @@ namespace CommonCore
         [Display(Name = "Género")]
         public Genero Genero { get; set; }
 
-        [Required]
-        [Display(Name = "Foto de perfil")]
+        //[Required]
         public string UrlFoto { get; set; }
 
         [NotMapped]
