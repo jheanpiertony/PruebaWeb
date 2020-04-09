@@ -101,6 +101,7 @@ namespace CommonCore
         #endregion
 
         public DbSet<Producto> Productos { get; set; }
+        public DbSet<DoWork> DoWorks { get; set; }
         public DbSet<Compra> Compras { get; set; }
         public DbSet<Test> Tests { get; set; }
         public DbSet<CompraProducto> ComprasProductos { get; set; }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace CommonCore
 {
@@ -8,7 +9,7 @@ namespace CommonCore
         Femenino = 0,
         [Description("Masculino")]
         Masculino = 1,
-        [Description("No definido")]
+        [Description("No definido"), Display(Name = "No definido")]
         NoDefinido = 2,
     }
 }

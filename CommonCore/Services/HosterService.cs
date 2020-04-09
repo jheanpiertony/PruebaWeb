@@ -9,6 +9,12 @@ namespace CommonCore.Services
 {
     public class HosterService : IHostedService, IDisposable
     {
+        //public HosterService(IServiceProvider services,
+        //    ApplicationDbContext dbContext)
+        //{
+        //    Services = services;
+        //    _dbContext = dbContext;
+        //}
         public HosterService(IServiceProvider services)
         {
             Services = services;
@@ -17,6 +23,8 @@ namespace CommonCore.Services
         private Timer _timer;
 
         public IServiceProvider Services { get; }
+
+        //private ApplicationDbContext _dbContext;
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -30,6 +38,13 @@ namespace CommonCore.Services
             {
                 var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
                 var message = "ConsumeScopedService. Received message at " + DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss");
+                context.DoWorks.Add(
+                    new DoWork() 
+                    {
+                      EstaBorrado=false,
+                      Evento = message,
+                      Fecha = DateTime.Now,
+                    });
                 //var log = new HostedServiceLog() { Message = message };
                 //context.HostedServiceLogs.Add(log);
                 context.SaveChanges();

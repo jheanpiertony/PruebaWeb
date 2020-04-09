@@ -49,6 +49,7 @@ namespace Web
             services.AddScoped<IProductoRepository, ProductoRepository>();
             services.AddScoped<IRepositorio<Producto>, Repositorio<Producto>>();
             services.AddScoped<EnumService>();
+            services.AddScoped<IADORepositorio, ADORepositorio>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddTransient<IEmailSender, EmailSender>(options =>
                 new EmailSender(

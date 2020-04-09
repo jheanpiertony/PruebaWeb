@@ -22,13 +22,15 @@ namespace Web.Controllers
         private readonly IProductoRepository _productoRepository;
         private readonly IMapper _mapper;
         private ProductoServiceClient _productoServiceClient = new ProductoServiceClient();
+        private IADORepositorio _ADORepositorio;
 
         public ProductosController(
             ApplicationDbContext context, 
             IImagenHelper imagenHelper,
             IRepositorio<Producto> repositorio,
             IProductoRepository productoRepository,
-            IMapper mapper)
+            IMapper mapper,
+            IADORepositorio aDORepositorio)
         {
             _context = context;
             _imagenHelper = imagenHelper;
@@ -36,11 +38,12 @@ namespace Web.Controllers
             _productoRepository = productoRepository;
             _mapper = mapper;
             _productoServiceClient = new ProductoServiceClient();
+            _ADORepositorio = aDORepositorio;
         }
 
         // GET: Productos
-        //public async Task<IActionResult> Index()
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
+        //public IActionResult Index()
         {
             #region SP creados desde .net core https://www.entityframeworktutorial.net/efcore/working-with-stored-procedure-in-ef-core.aspx
             var a = _context.Productos.FromSql("ListadoProductoDesdeNetCore_PruebaWeb_SP").ToList();
@@ -57,6 +60,10 @@ namespace Web.Controllers
             #region desde WCF
             //var listadoProductosWCF = await _productoServiceClient.ProductosAsync();
             //var listadoProductos = _mapper.Map<List<Producto>>(listadoProductosWCF); 
+            #endregion
+
+            #region USando ADO
+            var b = await _ADORepositorio.ObtenerListadoProductos();
             #endregion
 
             return View(listadoProductos);

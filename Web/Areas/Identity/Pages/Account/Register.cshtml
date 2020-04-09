@@ -60,6 +60,7 @@
             <div class="form-group">
                 <label asp-for="Input.Genero" class="control-label"></label>
                 <select asp-for="Input.Genero" asp-items="@Model.ListadoGenero" class="form-control"></select>
+                <select asp-for="Input.Genero" asp-items="@Html.GetEnumSelectList<Genero>()" class="form-control"></select>
                 @*<select asp-for="Input.Genero" asp-items="@Html.GetEnumSelectList<Genero>()" class="form-control"></select>*@
                 <span asp-validation-for="Input.Genero" class="text-danger"></span>
             </div>
