@@ -11,6 +11,7 @@ using ProductoServiceReference;
 using System.Collections.Generic;
 using CommonCore.SpSQL;
 using System.Data.SqlClient;
+using Microsoft.AspNetCore.Mvc.Internal;
 
 namespace Web.Controllers
 {
@@ -77,13 +78,15 @@ namespace Web.Controllers
                 return NotFound();
             }
 
-            var _listadoProductos = await _productoRepository.OdtenerListaProducto();
-            var producto = _listadoProductos.FirstOrDefault(m => m.Id == id);
+            Producto producto = await _context.Productos.FindAsync(id);
+
+            //var _listadoProductos = await _productoRepository.OdtenerListaProducto();
+            //var producto = _listadoProductos.FirstOrDefault(m => m.Id == id);
 
             #region SP creados desde .net core https://www.entityframeworktutorial.net/efcore/working-with-stored-procedure-in-ef-core.aspx
-            var a = _context.Productos.FromSql($"{RecursosSQLSp.CrearSPProductoPorId} {id}").First();
-            var parametroId = new SqlParameter("@Id", id);
-            var b = _context.Productos.FromSql($"{RecursosSQLSp.CrearSPProductoPorId} @Id",parametroId).First();
+            //var a = _context.Productos.FromSql($"{RecursosSQLSp.CrearSPProductoPorId} {id}").First();
+            //var parametroId = new SqlParameter("@Id", id);
+            //var b = _context.Productos.FromSql($"{RecursosSQLSp.CrearSPProductoPorId} @Id",parametroId).First();
             #endregion
 
             if (producto == null)
@@ -105,8 +108,8 @@ namespace Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Producto producto)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+            //{
                 var pathImagen = string.Empty;
                 
                 if (producto.Logo != null)
@@ -137,7 +140,7 @@ namespace Web.Controllers
                         ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                     }
                 }
-            }
+            //}
             return View(producto);
         }
 
@@ -201,6 +204,11 @@ namespace Web.Controllers
             return View(producto);
         }
 
+        public void DevuelveFalse(int v)
+        {
+            throw new NotImplementedException();
+        }
+
         // GET: Productos/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -230,9 +238,17 @@ namespace Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductoExists(int id)
+        public bool ProductoExists(int id)
         {
             return _context.Productos.Any(e => e.Id == id);
+        }
+        public bool DevuelveTrue(int id)
+        {
+            if (id == 0)
+            {
+                return  true;
+            }
+            return false;
         }
     }
 }

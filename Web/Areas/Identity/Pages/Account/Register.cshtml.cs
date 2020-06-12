@@ -45,8 +45,8 @@ namespace Web.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-        [BindProperty]
-        public IOrderedEnumerable<SelectListItem> ListadoGenero { get; set; }
+        //[BindProperty]
+        //public IOrderedEnumerable<SelectListItem> ListadoGenero { get; set; }
 
         public string ReturnUrl { get; set; }
 
@@ -71,7 +71,7 @@ namespace Web.Areas.Identity.Pages.Account
 
         public void OnGet(string returnUrl = null)
         {
-            ListadoGenero = _enumService.ToListSelectListItem<Genero>().OrderBy(x => x.Text);
+            //ListadoGenero = _enumService.ToListSelectListItem<Genero>().OrderBy(x => x.Text);
             ReturnUrl = returnUrl;
         }
 

@@ -8,10 +8,21 @@ namespace CommonCore
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext()
+        {
+
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
           : base(options)
         {
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer("Data Source = DESARROLLO-33\\SQLEXPRESS; Initial Catalog = PruebaWebDB; Integrated Security = True;");
+        //    }
+        //}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -72,6 +83,11 @@ namespace CommonCore
             //        ProductoId = 4
             //    });
 
+            //https://docs.microsoft.com/en-us/ef/core/saving/cascade-delete
+            foreach (var foreingKey in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreingKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
         }
         #region Borrado Suave en SaveChanges y SaveChangesAsync
         public override int SaveChanges()
