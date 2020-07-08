@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebRazorPage", "WebRazorPag
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfCore", "WcfCore\WcfCore.csproj", "{641C6EE1-42BE-4042-B4E6-C07A0B5F3EFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDBFirst", "WebDBFirst\WebDBFirst.csproj", "{77EA662D-5F19-4C55-BA4B-D8722C2CC5D3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDBFirst", "WebDBFirst\WebDBFirst.csproj", "{77EA662D-5F19-4C55-BA4B-D8722C2CC5D3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CreateTransactionScopePrueba", "CreateTransactionScopePrueba\CreateTransactionScopePrueba.csproj", "{46AD837B-A3D9-4265-BF3E-81191DFFF5F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,6 +65,10 @@ Global
 		{77EA662D-5F19-4C55-BA4B-D8722C2CC5D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{77EA662D-5F19-4C55-BA4B-D8722C2CC5D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{77EA662D-5F19-4C55-BA4B-D8722C2CC5D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46AD837B-A3D9-4265-BF3E-81191DFFF5F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46AD837B-A3D9-4265-BF3E-81191DFFF5F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46AD837B-A3D9-4265-BF3E-81191DFFF5F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46AD837B-A3D9-4265-BF3E-81191DFFF5F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
