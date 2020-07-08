@@ -16,13 +16,13 @@ namespace CommonCore
           : base(options)
         {
         }
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        optionsBuilder.UseSqlServer("Data Source = DESARROLLO-33\\SQLEXPRESS; Initial Catalog = PruebaWebDB; Integrated Security = True;");
-        //    }
-        //}
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source = DESKTOP-RFKKK95\\SQLEXPRESS; Initial Catalog = PruebaWebDB; Integrated Security = True;");
+            }
+        }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
