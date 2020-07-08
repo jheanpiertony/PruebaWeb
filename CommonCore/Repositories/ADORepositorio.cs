@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace CommonCore.Repositories
@@ -45,12 +44,12 @@ namespace CommonCore.Repositories
         }
         private Producto MapToValue(SqlDataReader reader)
         {
-            //var Id = (int)reader["Id"];
-            //var Nombres = reader["Nombres"].ToString();
-            //var Apellidos = reader["Apellidos"].ToString();
-            //var FechaNacimiento = (DateTime)reader["FechaNacimiento"];
-            //var UrlFoto = reader["UrlFoto"].ToString();
-            //var Sexo = (Sexo)reader["Sexo"];
+            /* var Id = (int)reader["Id"];
+            var Nombres = reader["Nombres"].ToString();
+            var Apellidos = reader["Apellidos"].ToString();
+            var FechaNacimiento = (DateTime)reader["FechaNacimiento"];
+            var UrlFoto = reader["UrlFoto"].ToString();
+            var Sexo = (Sexo)reader["Sexo"]; */
 
             var producto = new Producto()
             {

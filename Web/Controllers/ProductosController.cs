@@ -4,14 +4,10 @@ using CommonCore.Helpers;
 using CommonCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ProductoServiceReference;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using ProductoServiceReference;
-using System.Collections.Generic;
-using CommonCore.SpSQL;
-using System.Data.SqlClient;
-using Microsoft.AspNetCore.Mvc.Internal;
 
 namespace Web.Controllers
 {
@@ -19,11 +15,11 @@ namespace Web.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly IImagenHelper _imagenHelper;
-        private IRepositorio<Producto> _repositorio;
+        private readonly IRepositorio<Producto> _repositorio;
         private readonly IProductoRepository _productoRepository;
         private readonly IMapper _mapper;
-        private ProductoServiceClient _productoServiceClient = new ProductoServiceClient();
-        private IADORepositorio _ADORepositorio;
+        private readonly ProductoServiceClient _productoServiceClient;
+        private readonly IADORepositorio _ADORepositorio;
 
         public ProductosController(
             ApplicationDbContext context, 
