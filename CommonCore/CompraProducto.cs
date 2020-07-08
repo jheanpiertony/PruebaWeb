@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CommonCore
@@ -23,6 +22,6 @@ namespace CommonCore
         public int CompraId { get; set; }
         public int ProductoId { get; set; }
         public Compra Compra { get; set; }
-        public virtual Producto Producto { get; set; }
+        public Producto Producto { get; set; }
     }
 }

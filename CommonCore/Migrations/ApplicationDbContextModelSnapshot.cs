@@ -15,7 +15,7 @@ namespace CommonCore.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.2.6-servicing-10079")
+                .HasAnnotation("ProductVersion", "2.2.0-rtm-35687")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -123,35 +123,6 @@ namespace CommonCore.Migrations
                     b.HasIndex("ProductoId");
 
                     b.ToTable("CompraProducto");
-
-                    b.HasData(
-                        new
-                        {
-                            CompraId = 1,
-                            ProductoId = 1,
-                            Cantidad = 1,
-                            EstaBorrado = false,
-                            Id = 1,
-                            PrecioUnitarioFinal = 10000m
-                        },
-                        new
-                        {
-                            CompraId = 1,
-                            ProductoId = 2,
-                            Cantidad = 2,
-                            EstaBorrado = false,
-                            Id = 2,
-                            PrecioUnitarioFinal = 1100m
-                        },
-                        new
-                        {
-                            CompraId = 1,
-                            ProductoId = 4,
-                            Cantidad = 3,
-                            EstaBorrado = false,
-                            Id = 3,
-                            PrecioUnitarioFinal = 2200m
-                        });
                 });
 
             modelBuilder.Entity("CommonCore.DoWork", b =>
@@ -328,7 +299,8 @@ namespace CommonCore.Migrations
                 {
                     b.HasOne("CommonCore.ApplicationUser", "ApplicationUser")
                         .WithMany("Compras")
-                        .HasForeignKey("ApplicationUserId");
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("CommonCore.CompraProducto", b =>
@@ -336,12 +308,12 @@ namespace CommonCore.Migrations
                     b.HasOne("CommonCore.Compra", "Compra")
                         .WithMany("ComprasProductos")
                         .HasForeignKey("CompraId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("CommonCore.Producto", "Producto")
                         .WithMany("ComprasProductos")
                         .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -349,7 +321,7 @@ namespace CommonCore.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -357,7 +329,7 @@ namespace CommonCore.Migrations
                     b.HasOne("CommonCore.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
@@ -365,7 +337,7 @@ namespace CommonCore.Migrations
                     b.HasOne("CommonCore.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
@@ -373,12 +345,12 @@ namespace CommonCore.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
                         .WithMany()
                         .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("CommonCore.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -386,7 +358,7 @@ namespace CommonCore.Migrations
                     b.HasOne("CommonCore.ApplicationUser")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

@@ -22,6 +22,8 @@ namespace CommonCore
         public DateTime FechaCompra { get; set; }
 
         public List<CompraProducto> ComprasProductos { get; set; }
+
+        //public int ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
 
         [NotMapped]

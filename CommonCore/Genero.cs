@@ -5,7 +5,8 @@ namespace CommonCore
 {
     public enum Genero
     {
-        [Description("Femenino")]
+        [Description("Para el sexo femenino ")]
+        [Display(Name ="Femenino")]
         Femenino = 0,
         [Description("Masculino")]
         Masculino = 1,

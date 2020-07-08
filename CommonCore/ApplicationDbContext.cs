@@ -8,10 +8,21 @@ namespace CommonCore
 {
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public ApplicationDbContext()
+        {
+
+        }
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
           : base(options)
         {
         }
+        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        //{
+        //    if (!optionsBuilder.IsConfigured)
+        //    {
+        //        optionsBuilder.UseSqlServer("Data Source = DESARROLLO-33\\SQLEXPRESS; Initial Catalog = PruebaWebDB; Integrated Security = True;");
+        //    }
+        //}
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -43,35 +54,40 @@ namespace CommonCore
                 HasQueryFilter(ebc => ebc.Producto.EstaBorrado == true || ebc.EstaBorrado == true);
 
             //Seed
-            builder.Entity<CompraProducto>().HasData(
-                new CompraProducto() 
-                {
-                    Cantidad = 1, 
-                    CompraId = 1, 
-                    EstaBorrado = false, 
-                    Id = 1, 
-                    PrecioUnitarioFinal = 10000, 
-                    ProductoId = 1
-                },
-                new CompraProducto()
-                {
-                    Cantidad = 2,
-                    CompraId = 1,
-                    EstaBorrado = false,
-                    Id = 2,
-                    PrecioUnitarioFinal = 1100,
-                    ProductoId = 2
-                },
-                new CompraProducto()
-                {
-                    Cantidad = 3,
-                    CompraId = 1,
-                    EstaBorrado = false,
-                    Id = 3,
-                    PrecioUnitarioFinal = 2200,
-                    ProductoId = 4
-                });
+            //builder.Entity<CompraProducto>().HasData(
+            //    new CompraProducto() 
+            //    {
+            //        Cantidad = 1, 
+            //        CompraId = 1, 
+            //        EstaBorrado = false, 
+            //        Id = 1, 
+            //        PrecioUnitarioFinal = 10000, 
+            //        ProductoId = 1
+            //    },
+            //    new CompraProducto()
+            //    {
+            //        Cantidad = 2,
+            //        CompraId = 1,
+            //        EstaBorrado = false,
+            //        Id = 2,
+            //        PrecioUnitarioFinal = 1100,
+            //        ProductoId = 2
+            //    },
+            //    new CompraProducto()
+            //    {
+            //        Cantidad = 3,
+            //        CompraId = 1,
+            //        EstaBorrado = false,
+            //        Id = 3,
+            //        PrecioUnitarioFinal = 2200,
+            //        ProductoId = 4
+            //    });
 
+            //https://docs.microsoft.com/en-us/ef/core/saving/cascade-delete
+            foreach (var foreingKey in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                foreingKey.DeleteBehavior = DeleteBehavior.Restrict;
+            }
         }
         #region Borrado Suave en SaveChanges y SaveChangesAsync
         public override int SaveChanges()
