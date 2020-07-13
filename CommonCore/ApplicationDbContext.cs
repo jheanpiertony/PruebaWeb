@@ -47,11 +47,11 @@ namespace CommonCore
                 });
 
             builder.Entity<Producto>()
-                .HasQueryFilter(eb => eb.EstaBorrado == false);
+                .HasQueryFilter(eb => eb.EstaBorrado);
             builder.Entity<Compra>()
-                .HasQueryFilter(eb => eb.EstaBorrado == false).HasQueryFilter(ebcp => ebcp.EstaBorrado == false);
+                .HasQueryFilter(eb => eb.EstaBorrado).HasQueryFilter(ebcp => ebcp.EstaBorrado);
             builder.Entity<CompraProducto>().
-                HasQueryFilter(ebc => ebc.Producto.EstaBorrado == true || ebc.EstaBorrado == true);
+                HasQueryFilter(ebc => ebc.Producto.EstaBorrado || ebc.EstaBorrado);
 
             //Seed
             //builder.Entity<CompraProducto>().HasData(
