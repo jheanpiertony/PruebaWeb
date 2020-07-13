@@ -11,8 +11,6 @@ namespace TransactionScopePrueba
             ApplicationDbContext context = new ApplicationDbContext();
             try
             {
-                // Create the TransactionScope to execute the commands, guaranteeing
-                // that both commands can commit or roll back as a single unit of work.
                 using (TransactionScope scope = new TransactionScope())
                 {
                     context.Add(new Producto()
@@ -23,10 +21,12 @@ namespace TransactionScopePrueba
                         ImagenURL = string.Empty,
                     });
                     context.SaveChanges();
-                    // The Complete method commits the transaction. If an exception has been thrown,
-                    // Complete is not  called and the transaction is rolled back.
+                    
+                    
                     scope.Complete();
                 }
+
+
             }
             catch (TransactionAbortedException ex)
             {
