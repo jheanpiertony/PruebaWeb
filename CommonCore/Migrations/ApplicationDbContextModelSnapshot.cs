@@ -152,8 +152,6 @@ namespace CommonCore.Migrations
 
                     b.Property<string>("ImagenURL");
 
-                    b.Property<int>("MyProperty");
-
                     b.Property<string>("NombreProducto")
                         .IsRequired();
 

@@ -9,12 +9,12 @@ namespace CommonCore.Services
 {
     public class HosterService : IHostedService, IDisposable
     {
-        public HosterService(IServiceProvider services,
-            ApplicationDbContext dbContext)
-        {
-            Services = services;
-            _dbContext = dbContext;
-        }
+        //public HosterService(IServiceProvider services,
+        //    ApplicationDbContext dbContext)
+        //{
+        //    Services = services;
+        //    _dbContext = dbContext;
+        //}
         public HosterService(IServiceProvider services)
         {
             Services = services;
@@ -24,7 +24,7 @@ namespace CommonCore.Services
 
         public IServiceProvider Services { get; }
 
-        private ApplicationDbContext _dbContext;
+        //private ApplicationDbContext _dbContext;
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
@@ -57,30 +57,6 @@ namespace CommonCore.Services
             return Task.CompletedTask;
         }
 
-        public void Dispose()
-        {
-            _timer?.Dispose();
-        }
-    }
-
-    public class MyClass : IHostedService
-    {
-        private Timer _timer;
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            _timer = new Timer(HacerLoQsea, null, TimeSpan.Zero, TimeSpan.FromSeconds(20));
-            return Task.CompletedTask;
-        }
-        public void HacerLoQsea(object state) 
-        {
-            
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            _timer?.Change(Timeout.Infinite, 0);
-            return Task.CompletedTask;
-        }
         public void Dispose()
         {
             _timer?.Dispose();

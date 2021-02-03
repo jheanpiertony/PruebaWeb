@@ -4,12 +4,7 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <LangVersion>7.1</LangVersion>
-    <CodeAnalysisRuleSet>..\.sonarlint\gestion-reactivascsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\.sonarlint\gestion-reactivas\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
 
 
   <ItemGroup>

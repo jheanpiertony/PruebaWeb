@@ -1,5 +1,2 @@
 ﻿Scaffold-DbContext "Data Source = DESKTOP-RFKKK95\\SQLEXPRESS; Initial Catalog = PruebaWebDB; Integrated Security = True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models
 Script-Migration
-scaffold-dbcontext "Data Source = DESARROLLO-33\SQLEXPRESS; Initial Catalog = WebEFDB; Integrated Security = True;" Microsoft.EntityFrameworkCore.Sqlserver -OutputDir "ModelDbFirst" -ContextDir "DataDbFirst" -Context "ApplicationDbContextFirst" -DataAnnotations  
-https://docs.microsoft.com/en-us/ef/core/cli/powershell
-https://devblogs.microsoft.com/dotnet/announcing-the-release-of-ef-core-5-0/

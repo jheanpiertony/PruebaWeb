@@ -3,12 +3,7 @@
   <PropertyGroup>
     <TargetFrameworks>netcoreapp2.2;net48</TargetFrameworks>
     <LangVersion>7.1</LangVersion>
-    <CodeAnalysisRuleSet>..\.sonarlint\gestion-reactivascsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
-
-  <ItemGroup>
-    <AdditionalFiles Include="..\.sonarlint\gestion-reactivas\CSharp\SonarLint.xml" Link="SonarLint.xml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
