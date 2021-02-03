@@ -200,6 +200,11 @@ namespace Web.Controllers
             return View(producto);
         }
 
+        public async Task<Boolean> TestEntero()
+        {
+            return true;
+        }
+
         public void DevuelveFalse(int v)
         {
             throw new NotImplementedException();

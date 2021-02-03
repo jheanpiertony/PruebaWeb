@@ -32,6 +32,7 @@ namespace CommonCore
         [Range(0,double.MaxValue)]
         public virtual decimal Precio { get; set; }
 
+        public int MyProperty { get; set; }
         public List<CompraProducto> ComprasProductos { get; set; }
     }
 }

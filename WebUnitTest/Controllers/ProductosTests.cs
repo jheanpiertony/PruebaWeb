@@ -1,15 +1,12 @@
-using Web.Controllers;
 using AutoMapper;
 using CommonCore;
 using CommonCore.Helpers;
 using CommonCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Threading.Tasks;
-using System;
 
 namespace Web.Controllers.Tests
 {
@@ -26,6 +23,7 @@ namespace Web.Controllers.Tests
             return dbContext;
         }
 
+        private ProductosController productoController;
         private ApplicationDbContext ConstruirDbContext(string databaseName)
         {
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
@@ -34,26 +32,39 @@ namespace Web.Controllers.Tests
             return dbContext;
         }
 
-        [TestMethod]
-        public async Task CreateAsyncTest()
+        [TestInitialize]
+        public async Task Preparacion()
         {
-            //Prepración -- Arrange (Arreglar, Organizar, Ordenar)
             Producto producto = new Producto()
             {
-            };
 
+            };
             var contexto = new Mock<ApplicationDbContext>();
             var imagenHelper = new Mock<ImagenHelper>();
             var repositorio = new Mock<IRepositorio<Producto>>();
             var productoRepository = new Mock<IProductoRepository>();
             var mapper = new Mock<IMapper>();
             var aDORepositorio = new Mock<IADORepositorio>();
-            var productoController = new ProductosController(contexto.Object, imagenHelper.Object, repositorio.Object,
-                productoRepository.Object, mapper.Object, aDORepositorio.Object);
+            productoController = new ProductosController
+                (
+                contexto.Object, 
+                imagenHelper.Object, 
+                repositorio.Object,
+                productoRepository.Object, 
+                mapper.Object, 
+                aDORepositorio.Object
+                );
+        }
+
+        [TestMethod]
+        public async Task CreateAsyncTest()
+        {
+            //Prepración -- Arrange (Arreglar, Organizar, Ordenar)
+            Preparacion();
 
 
             //Prueba -- Act (Actuar, Acción)
-            var resultado = await productoController.Create(producto);
+            var resultado = await productoController.Create(new Producto());
 
             //Verifiación -- Assert (Afirmar, Asegurar, Hacer valer)
             Assert.IsNotNull(resultado);
@@ -129,14 +140,14 @@ namespace Web.Controllers.Tests
                 NombreProducto = "Producto desde pruebas unitarias",
                 Precio = 12500
             };
-            var contexto = new Mock<ApplicationDbContext>();
-            //var contexto = ConstruirDbContext();
+            //var contexto = new Mock<ApplicationDbContext>();
+            var contexto = ConstruirDbContext();
             var imagenHelper = new Mock<ImagenHelper>();
             var repositorio = new Mock<IRepositorio<Producto>>();
             var productoRepository = new Mock<IProductoRepository>();
             var mapper = new Mock<IMapper>();
             var aDORepositorio = new Mock<IADORepositorio>();
-            var productoController = new ProductosController(contexto.Object, imagenHelper.Object, repositorio.Object,
+            var productoController = new ProductosController(contexto, imagenHelper.Object, repositorio.Object,
                 productoRepository.Object, mapper.Object, aDORepositorio.Object);
 
             //Prueba
@@ -144,6 +155,13 @@ namespace Web.Controllers.Tests
 
             // Assert
             Assert.Fail();
+        }
+
+        [TestMethod()]
+        public async Task TestEnteroTest() {
+            Preparacion();
+            var resultado = await productoController.TestEntero();
+            Assert.IsFalse(resultado);
         }
     }
 }

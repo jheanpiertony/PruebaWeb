@@ -12,7 +12,7 @@ namespace CommonCore.Helpers
             string guid = Guid.NewGuid().ToString();
             string file = $"{guid}.jpg";
             string path = Path.Combine(
-                Directory.GetCurrentDirectory(),
+                Environment.CurrentDirectory,
                 $"wwwroot\\Imagenes\\{carpeta}",
                 file);
 

@@ -1,0 +1,12 @@
+{
+  "ServerUri": "http://192.168.1.161:9002",
+  "Organization": null,
+  "ProjectKey": "gestion-reactivas",
+  "ProjectName": "gestion-reactivas",
+  "Profiles": {
+    "CSharp": {
+      "ProfileKey": "AXNN0D5YNO1C9r5VjS-z",
+      "ProfileTimestamp": "2020-07-14T14:53:53Z"
+    }
+  }
+}

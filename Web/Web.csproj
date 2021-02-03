@@ -5,7 +5,12 @@
     <UserSecretsId>aspnet-Web-725384B9-2897-46B6-AA45-10E49CFD96F1</UserSecretsId>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <LangVersion>7.1</LangVersion>
+    <CodeAnalysisRuleSet>..\.sonarlint\gestion-reactivascsharp.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="..\.sonarlint\gestion-reactivas\CSharp\SonarLint.xml" Link="SonarLint.xml" />
+  </ItemGroup>
 
 
   <ItemGroup>
