@@ -1,15 +1,12 @@
-using Web.Controllers;
 using AutoMapper;
 using CommonCore;
 using CommonCore.Helpers;
 using CommonCore.Repositories;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using System.Threading.Tasks;
-using System;
 
 namespace Web.Controllers.Tests
 {

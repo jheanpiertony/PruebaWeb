@@ -8,11 +8,11 @@ namespace Web.Services
     public class EmailSender : IEmailSender
     {
         // Our private configuration variables https://medium.com/@MisterKevin_js/enabling-email-verification-in-asp-net-core-identity-ui-2-1-b87f028a97e0
-        private string host;
-        private int port;
-        private bool enableSSL;
-        private string userName;
-        private string password;
+        private readonly string host;
+        private readonly int port;
+        private readonly bool enableSSL;
+        private readonly string userName;
+        private readonly string password;
 
         // Get our parameterized configuration
         public EmailSender(string host, int port, bool enableSSL, string userName, string password)
