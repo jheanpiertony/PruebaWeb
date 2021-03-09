@@ -12,6 +12,7 @@ connection.on("ReceiveMessage", function (user, message) {
     var li = document.createElement("li");
     li.textContent = encodedMsg;
     document.getElementById("messagesList").appendChild(li);
+    messageInput = "";
 });
 
 connection.start().then(function () {// Hace la coneccion a C# al Hub
