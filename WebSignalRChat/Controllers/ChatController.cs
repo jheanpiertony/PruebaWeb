@@ -18,7 +18,7 @@ namespace WebSignalRChat
         }
         public IActionResult Index()
         {
-            chathub.Clients.All.SendAsync("ReceiveMessage", "Adminsitrador", "Un nuevo usuario entro al ChatHub");
+            chathub.Clients.All.SendAsync("ReceiveMessage", "Administrador", "Un nuevo usuario entro al ChatHub");
             return View();
         }
         public IActionResult SqlDependency()
