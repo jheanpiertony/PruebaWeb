@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using WebSignalRChat.Models;
 
 namespace WebSignalRChat.Data
 {
@@ -12,5 +13,6 @@ namespace WebSignalRChat.Data
             : base(options)
         {
         }
+        public DbSet<Usuario> Usuarios { get; set; }
     }
 }

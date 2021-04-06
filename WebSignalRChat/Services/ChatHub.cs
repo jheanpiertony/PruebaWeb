@@ -9,5 +9,9 @@ namespace WebSignalRChat.Services
         {
             await Clients.All.SendAsync("ReceiveMessage", user, message);
         }
+        public async Task SendMessagePrivado(string user, string message, string destinoId)
+        {
+            await Clients.User(destinoId).SendAsync("ReceiveMessage", user, message);
+        }
     }
 }
