@@ -23,6 +23,7 @@ namespace IHostedService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, HosterService>();
+            services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, HosterService2>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
