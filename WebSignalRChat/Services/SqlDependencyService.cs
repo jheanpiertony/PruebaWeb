@@ -10,10 +10,14 @@ namespace WebSignalRChat.Services
         private readonly IConfiguration configuration;
         private readonly IHubContext<ChatHub> chatHub;
 
-        public SqlDependencyService(IConfiguration configuration, IHubContext<ChatHub> chatHub)
+        //public SqlDependencyService(IConfiguration configuration, IHubContext<ChatHub> chatHub)
+        //{
+        //    this.configuration = configuration;
+        //    this.chatHub = chatHub;
+        //}
+        public SqlDependencyService(IConfiguration configuration)
         {
             this.configuration = configuration;
-            this.chatHub = chatHub;
         }
         public void Configuracion()
         {
@@ -25,19 +29,26 @@ namespace WebSignalRChat.Services
             string connectionString = configuration.GetConnectionString("DefaultConnection");
             using (var connection = new SqlConnection(connectionString))
             {
-
-                
-                using (var command = new SqlCommand(@"SELECT [Id], [NombreUsuario] FROM [dbo].Usuario", connection)) 
+                connection.Open();
+                using (var command = new SqlCommand(@"SELECT NombreUsuario FROM dbo.Usuario", connection)) 
                 {
-
-                    command.Notification = null;
-                    connection.Open();
-                    SqlDependency sqlDependency = new SqlDependency(command);  
-                    sqlDependency.OnChange += new OnChangeEventHandler( Usuario_Nuevo);
+                    command.Notification = null;                    
+                    SqlDependency sqlDependency = new SqlDependency(command);
+                    sqlDependency.OnChange += SqlDependency_OnChange;
                     SqlDependency.Start(connectionString);
                     command.ExecuteReader();
                 }
             }
+        }
+
+        private void SqlDependency_OnChange(object sender, SqlNotificationEventArgs e)
+        {
+            //if (e.Type == SqlNotificationType.Change)
+            //{
+            //    string mensaje = Mensaje(e);
+            //    chatHub.Clients.All.SendAsync("ReceiveMessage", "Administrador", mensaje);
+            //}
+            //SuscripcionNuevoUsuario();
         }
 
         private void Usuario_Nuevo(object sender, SqlNotificationEventArgs e)
