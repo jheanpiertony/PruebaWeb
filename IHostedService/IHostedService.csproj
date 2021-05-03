@@ -10,6 +10,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Serilog.Extensions.Logging.File" Version="2.0.0" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.MSSqlServer" Version="5.6.0" />
     <PackageReference Include="SonarAnalyzer.CSharp" Version="8.8.0.18411">
@@ -21,6 +22,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CommonCore\CommonCore.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Log\" />
   </ItemGroup>
 
 </Project>

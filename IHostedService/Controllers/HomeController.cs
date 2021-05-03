@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Common.Services;
 using IHostedService.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace IHostedService.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly ILogerBDService logger;
+
+        public HomeController(ILogerBDService logger)
+        {
+            this.logger = logger;
+        }
+
         public IActionResult Index()
         {
+            logger.CraerLogs("Controlador Index");
             return View();
         }
 
         public IActionResult Privacy()
         {
+            logger.CraerLogs("Controlador Privacy");            
             return View();
         }
 

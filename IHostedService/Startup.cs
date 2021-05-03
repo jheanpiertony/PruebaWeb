@@ -1,4 +1,5 @@
-﻿using CommonCore;
+﻿using Common.Services;
+using CommonCore;
 using CommonCore.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,6 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace IHostedService
 {
@@ -24,7 +27,19 @@ namespace IHostedService
         {
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, HosterService>();
             services.AddTransient<Microsoft.Extensions.Hosting.IHostedService, HosterService2>();
+            
+            services.AddTransient<ILogerBDService, LoggerBDService>();
 
+            services.AddSingleton<Serilog.ILogger>(option =>
+            {
+                var stringConnec = Configuration["Serilog:connectionStrings"];
+                var tableName = Configuration["Serilog:tableName"];
+                return new LoggerConfiguration().WriteTo
+                .MSSqlServer(stringConnec, tableName,restrictedToMinimumLevel: Serilog.Events.LogEventLevel.Warning, autoCreateSqlTable: true)
+                .CreateLogger();
+            });
+
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -40,7 +55,7 @@ namespace IHostedService
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -52,6 +67,8 @@ namespace IHostedService
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            loggerFactory.AddFile($@"{env.ContentRootPath}\wwwroot\Log\Logs");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

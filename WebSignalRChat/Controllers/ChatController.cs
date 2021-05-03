@@ -32,7 +32,6 @@ namespace WebSignalRChat
         [Authorize]
         public IActionResult SqlDependency()
         {
-            sqlDependencyService.Configuracion();
             var usuario = HttpContext.User.Identity.Name;
             chathub.Clients.All.SendAsync("ReceiveMessage", "Administrador", $"{usuario} entro al ChatHub");
             return View();
