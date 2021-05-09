@@ -10,7 +10,8 @@ namespace CommonCore.Repositories
     {
         private readonly string _connectionString;
 
-        public ProductoRepository(IConfiguration configuration) => _connectionString = configuration.GetConnectionString("defaultConnection");
+        public ProductoRepository(IConfiguration configuration) => 
+            _connectionString = configuration.GetConnectionString("defaultConnection");
 
         public async Task<List<Producto>> OdtenerListaProducto()
         {

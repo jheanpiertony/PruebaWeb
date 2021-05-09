@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
+using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base.EventArgs;
 using WebSignalRChat.Interfaces;
+using WebSignalRChat.Models;
 
 namespace WebSignalRChat.Services
 {
@@ -15,6 +18,7 @@ namespace WebSignalRChat.Services
             this.configuration = configuration;
             this.chatHub = chatHub;
         }
+
         public void Configuracion()
         {
             SuscripcionNuevoUsuario();
@@ -25,22 +29,31 @@ namespace WebSignalRChat.Services
             string connectionString = configuration.GetConnectionString("DefaultConnection");
             using (var connection = new SqlConnection(connectionString))
             {
-
-                
-                using (var command = new SqlCommand(@"SELECT [Id], [NombreUsuario] FROM [dbo].Usuario", connection)) 
+                connection.Open();
+                using (var command = new SqlCommand(@"SELECT NombreUsuario FROM dbo.Usuario", connection)) 
                 {
-
-                    command.Notification = null;
-                    connection.Open();
-                    SqlDependency sqlDependency = new SqlDependency(command);  
-                    sqlDependency.OnChange += new OnChangeEventHandler( Usuario_Nuevo);
+                    var usuarioChange = new SqlTableDependency<Usuario>(configuration.GetConnectionString("DefaultConnection"), "Usuario");                    
+                    command.Notification = null;                    
+                    SqlDependency sqlDependency = new SqlDependency(command);
+                    sqlDependency.OnChange += SqlDependency_OnChange;
+                    usuarioChange.OnChanged += UsuarioChange_OnChanged;
                     SqlDependency.Start(connectionString);
+                    usuarioChange.Start();
+                    usuarioChange.Stop();
+                    
                     command.ExecuteReader();
                 }
             }
         }
 
-        private void Usuario_Nuevo(object sender, SqlNotificationEventArgs e)
+        private void UsuarioChange_OnChanged(object sender, RecordChangedEventArgs<Usuario> e)
+        {
+            string mensaje = MensajeTable(e);
+            chatHub.Clients.All.SendAsync("ReceiveMessage", "Administrador", mensaje);
+            SuscripcionNuevoUsuario();
+        }
+
+        private void SqlDependency_OnChange(object sender, SqlNotificationEventArgs e)
         {
             if (e.Type == SqlNotificationType.Change)
             {
@@ -51,7 +64,7 @@ namespace WebSignalRChat.Services
         }
 
         private string Mensaje(SqlNotificationEventArgs e)
-        {
+        {            
             switch (e.Info)
             {               
                 case SqlNotificationInfo.Delete:
@@ -60,6 +73,21 @@ namespace WebSignalRChat.Services
                     return "Un usuario nuevo se ha registrado";
                 case SqlNotificationInfo.Update:
                     return "Un usuario ha actualizado su perfil";
+                default:
+                    return "Un cambio ocurrio en la BD";
+            }
+        }
+        private string MensajeTable(RecordChangedEventArgs<Usuario> e)
+        {
+            string usuario = $"El usuario {e.Entity.NombreUsuario}";
+            switch (e.ChangeType)
+            {
+                case TableDependency.SqlClient.Base.Enums.ChangeType.Delete:
+                    return $"{usuario} ha sido dado de baja";
+                case TableDependency.SqlClient.Base.Enums.ChangeType.Insert:
+                    return $"{usuario} se ha registrado";
+                case TableDependency.SqlClient.Base.Enums.ChangeType.Update:
+                    return $"{usuario} ha actualizado su perfil";
                 default:
                     return "Un cambio ocurrio en la BD";
             }
