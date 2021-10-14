@@ -69,7 +69,7 @@ namespace Web
                 options.Cookie.HttpOnly = true;
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
-            }); 
+            });
             #endregion
 
             services.AddMvc().AddJsonOptions(ConfigureJson);
@@ -78,7 +78,7 @@ namespace Web
             //    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
             //    .EnableSensitiveDataLogging(true)
             //    .UseLoggerFactory(new LoggerFactory().AddConsole((category, level) => level == LogLevel.Information && category == DbLoggerCategory.Database.Name, true)));
-            
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))
                 .EnableSensitiveDataLogging(true)
@@ -141,14 +141,12 @@ namespace Web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
-
             app.UseSession();
-
             app.UseAuthentication();// Session and app state in ASP.NET Core
 
 
             app.UseMvc(routes =>
-            {
+            {                
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
